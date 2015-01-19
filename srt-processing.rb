@@ -22,6 +22,7 @@ class TimeShift
 			new_start = time_stamp_start + random_milsec
 			new_end = time_stamp_end + random_milsec
 			# puts "#{new_start.strftime('%H:%M:%S,%3N')}--> #{new_end.strftime('%H:%M:%S,%3N')}"
+			return new_start.strftime('%H:%M:%S,%3N'), new_end.strftime('%H:%M:%S,%3N')
 
 		elsif direction == "backwards"
 			new_start = time_stamp_start - random_milsec
@@ -69,8 +70,15 @@ sub_times = subtiles[1].split(" --> ")
 time1 = sub_times[0] #first time
 time2 = sub_times[1] #second time
 
-shifting_time.time(direction, sub_times[0], sub_times[1])
+new_times = [shifting_time.time(direction, sub_times[0], sub_times[1])]
 
+
+new_times.each do |time|
+	update = "#{time}
+		#{subtiles[2]}
+		#{subtiles[3]}"
+	IO.write("new_subrip.txt", update)
+end
 
 
 
