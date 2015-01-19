@@ -15,7 +15,7 @@ class TimeShift
 		time_stamp_start = Time.parse(start_time)
 		time_stamp_end = Time.parse(end_time)
 
-		difference = time_stamp_end - time_stamp_start #2500 milsec
+		difference = time_stamp_end - time_stamp_start
 		random_milsec = (rand(2000.0..3300.0)/1000)
 		puts random_milsec
 		if direction == "forwards"
@@ -27,7 +27,8 @@ class TimeShift
 		elsif direction == "backwards"
 			new_start = time_stamp_start - random_milsec
 			new_end = time_stamp_end - random_milsec
-			# puts "#{new_start.strftime('%H:%M:%S,%3N')} --> #{new_end.strftime('%H:%M:%S,%3N')}"
+			# puts "#{new_start.strftime('%H:%M:%S,%3N')}--> #{new_end.strftime('%H:%M:%S,%3N')}"
+			return new_start.strftime('%H:%M:%S,%3N'), new_end.strftime('%H:%M:%S,%3N')
 		else
 			puts "Please enter either Forwards or Backwards."
 		end
@@ -35,60 +36,36 @@ class TimeShift
 end
 
 
-# class File
-# 	attr_reader :time1, :time2
-# 	def initialize(name)
-# 		@name = name
-# 	end
-# 	def readfile
-# 		subtiles = IO.readlines("subrip.txt")#.split("\n")
-# 		sub_times = subtiles[1].split(" --> ")
-# 		@time1 = sub_times[0] #first time
-# 		@time2 = sub_times[1] #second time
-# 	end
-# 	def timestamps
-# 		time2 = @time2
-# 	end
-# end
 
 #_______________________________________________________________
 
+
+
+# shifting_time = TimeShift.new
 # puts "Move the subrip forwards or backwards?"
 # direction = (gets.chomp).downcase
-# subrip = File.new "shesh"
-# time_stamps = subrip.readfile
-# french = TimeShift.new
-# puts french.time(direction, time_stamps)
+
+# subtitles = IO.readlines("subrip.txt")
+# sub_times = subtitles[1].split(" --> ")
+# time1 = sub_times[0] #first time
+# time2 = sub_times[1] #second time
+
+# new_times = shifting_time.time(direction, sub_times[0], sub_times[1])
 
 
-shifting_time = TimeShift.new
-puts "Move the subrip forwards or backwards?"
-direction = (gets.chomp).downcase
-
-subtiles = IO.readlines("subrip.txt")
-sub_times = subtiles[1].split(" --> ")
-time1 = sub_times[0] #first time
-time2 = sub_times[1] #second time
-
-new_times = [shifting_time.time(direction, sub_times[0], sub_times[1])]
+# File.write("new_subrip.txt", "#{subtitles[0]}#{new_times[0]} --> #{new_times[1]}\n#{subtitles[2]}#{subtitles[3]}\n",mode: "a")
 
 
-new_times.each do |time|
-	update = "#{time}
-		#{subtiles[2]}
-		#{subtiles[3]}"
-	IO.write("new_subrip.txt", update)
-end
+subtitles = IO.read("subrip.txt").split("\n\n") #splits each subtile section
+sub_secs = subtitles[0].split(" --> ")
+subtimes = sub_secs[0].split("\n")
+pp subtimes[1]
 
 
 
 
 
-
-
-
-# cur_time = Time.new(2015,01,01, h,m,sec,milsec)
-cur_time = Time.parse("2015-01-01 00:00:10,500")
+# cur_time = Time.parse("2015-01-01 00:00:10,500")
 # puts cur_time.strftime('%H:%M:%S,%3N')
 
 
